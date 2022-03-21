@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const ConcertImage = ({data}) => {
+const ConcertImage = ({data}: any) => {
 
     // useEffect (() => {
     //     console.log('limage!!!');
