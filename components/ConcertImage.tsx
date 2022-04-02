@@ -32,9 +32,7 @@ console.log("🚀 ~ file: concertImage.tsx ~ line 5 ~ ConcertImage ~ data.entiti
     
 
     return (
-        <div className=' h-2/3 relative' >
-            {data.images[0].url && <Image src={data.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
-        </div>
+
     );
 };
 
