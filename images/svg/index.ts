@@ -1,2 +1,2 @@
-export { default as AnglePetitDroit } from "./AnglePetitDroit";
-export { default as AnglePetitGauche } from "./AnglePetitGauche";
+export { default as Location } from "./Location";
+export { default as Utilisateur } from "./Utilisateur";

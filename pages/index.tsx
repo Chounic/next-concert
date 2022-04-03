@@ -11,8 +11,8 @@ import styles from '../styles/Home.module.css'
 import useEmblaCarousel from 'embla-carousel-react'
 import SvgAngleCarreGauche from '../images/svg/AngleCarreGauche'
 import SvgAngleCarreDroit from '../images/svg/AngleCarreDroit'
-import SvgAnglePetitGauche from '../images/svg/AnglePetitGauche'
-import SvgAnglePetitDroit from '../images/svg/AnglePetitDroit'
+import anglePetitGauche from "../images/svg/angle-petit-gauche.png"
+import anglePetitDroit from "../images/svg/angle-petit-droit.png"
 
 
 
@@ -50,7 +50,7 @@ export default function Index(props: any) {
         <div className='overflow-hidden group relative px-10'>
           <div className="overflow-hidden" ref={emblaRefAttractions}>
 
-            <div className="flex box-border divide-x-2 h-[160px] ">
+            <div className="flex box-border divide-x-2 h-[200px] ">
               {props.attractions.map((item: any, index: any) => {
                 console.log("🚀 ~ file: index.tsx ~ line 24 ~ {props.data.results.map ~ item", item)
                 return (
@@ -63,9 +63,10 @@ export default function Index(props: any) {
                     passHref
                   >
                     <div className='flex-[0_0_200px] p-2 bg-white border-zinc-200 border-y-2 first:border-l-2 last:border-r-2 ...' >
-                      <div className=' h-[100px] relative' >
-                        {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
-                      </div>                        <p className='text-center text-sm mt-2'>{item.name}</p>
+                      <div className=' h-[130px] relative' >
+                        {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='cover' />}
+                      </div>
+                      <p className='text-center text-sm mt-2'>{item.name}</p>
                     </div>
                   </Link>
                 )
@@ -74,10 +75,10 @@ export default function Index(props: any) {
             </div>
           </div>
           <button className="absolute bottom-16 opacity-30 group-hover:opacity-70  left-0" onClick={scrollPrevAttractions}>
-            <SvgAngleCarreGauche />
+            <Image src={anglePetitGauche} alt="next button" layout='fill' objectFit='inherit' />
           </button>
           <button className="absolute bottom-16 opacity-30 group-hover:opacity-70 right-0" onClick={scrollNextAttractions}>
-            <SvgAngleCarreDroit />
+            <Image src={anglePetitDroit} alt="next button" layout='fill' objectFit='inherit' />
           </button>
         </div>
 
@@ -120,9 +121,10 @@ export default function Index(props: any) {
             </div>
           </div>
           <button className="absolute bottom-56 opacity-30 group-hover:opacity-70 left-0" onClick={scrollPrevEvents}>
-            <Image src="/images/svg/angle-petit-gauche.png" alt="next button" layout='fill' objectFit='inherit' />          </button>
+            <SvgAngleCarreGauche />
+          </button>
           <button className="absolute bottom-56 opacity-30 group-hover:opacity-70" onClick={scrollNextEvents}>
-            <Image src="/images/svg/angle-petit-droit.png" alt="next button" layout='fill' objectFit='inherit' />
+            <SvgAngleCarreDroit />
           </button>
         </div>
       </main>
