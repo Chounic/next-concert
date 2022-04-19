@@ -15,19 +15,48 @@ const Navbar = () => {
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
     const [showSuggestions, setShowSuggestions] = useState(false);
 
-    console.log("🚀 ~ file: Navbar.tsx ~ line 12 ~ Navbar ~ city", city)
-
+    
     const searchCity = (e) => {
         const userInput = e.target.value;
 
         const suggestions = cities.filter(item => item.toLowerCase().indexOf(userInput.toLowerCase()) > -1)
-        console.log("🚀 ~ file: Navbar.tsx ~ line 24 ~ searchCity ~ suggestions", suggestions)
 
         setCity(e.target.value);
         setFilteredSuggestions(suggestions);
         setActiveSuggestionIndex(0);
         setShowSuggestions(true);
+    } 
+
+    const onKeyDown = (event:any) => {
+    console.log("🚀 ~ file: Navbar.tsx ~ line 31 ~ onKeyDown ~ event", event.keyCode)
+    console.log("🚀 ~ file: Navbar.tsx ~ line 34 ~ onKeyDown ~ key.keyCode", event.keyCode)
+        if (event.keyCode === 40 && activeSuggestionIndex < (filteredSuggestions.length-1)) {
+            console.log('keydown')
+            setActiveSuggestionIndex((prev) => prev + 1);
+        }
+        if (event.keyCode === 38 && activeSuggestionIndex > 0) {
+            console.log('keyup')
+            setActiveSuggestionIndex((prevASI) => prevASI - 1);
+        }
+
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            if (filteredSuggestions[0] && city) {
+                console.log("🚀 ~ file: Navbar.tsx ~ line 45 ~ onKeyDown ~ filteredSuggestions", filteredSuggestions)
+                console.log('enter')
+                setCity(filteredSuggestions[activeSuggestionIndex]);
+                setFilteredSuggestions([]);
+                setActiveSuggestionIndex(0);
+                setShowSuggestions(false);
+            } else {
+                city.trim()[0] && router.push({
+                    pathname: '/Search',
+                    query: { city: city }
+                })
+            }
+        }
     }
+
 
     const onClick = (e) => {
         setFilteredSuggestions([]);
@@ -36,8 +65,11 @@ const Navbar = () => {
         setShowSuggestions(false);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e:any) => {
         e.preventDefault();
+        console.log("🚀 ~ file: Navbar.tsx ~ line 58 ~ handleSubmit ~ e", e.keyCode)
+        
+        
         city && router.push({
             pathname: '/Search',
             query: { city: city }
@@ -73,21 +105,22 @@ const Navbar = () => {
                     <p className=' text-red-50 text-2xl w-1/2 pr-8'>Tous les concerts, partout aux US, quelque soit le style. Ne ratez pas le prochain évènement dont tout le monde parlera.</p>
                     <form onSubmit={handleSubmit} className='static'>
 
-                        <input type="search" value={city} onChange={searchCity} className="form-input text-xl h-12  px-6 py-3 w-96 rounded-full placeholder:italic placeholder:text-xl placeholder:text-neutral-400" placeholder='Choisis une ville aux stasunis'></input>
+                        <input type="search" value={city} onChange={searchCity} onKeyDown={onKeyDown} className="form-input text-xl h-12  px-6 py-3 w-96 rounded-full placeholder:italic placeholder:text-xl placeholder:text-neutral-400" placeholder='Choisis une ville aux stasunis'></input>
 
                         {showSuggestions && city && (
 
-                        <div className="overflow-auto h-5/6 w-11/12  mx-auto bg-slate-800">
+                        <div className="overflow-auto h-5/6 w-11/12  mx-auto">
 
                         <ul className="  bg-slate-200 overscroll-contain rounded-md divide-y-2 divide-dashed divide-zinc-600 pl-1">
                             {filteredSuggestions.map((suggestion, index) => {
                                 let className;
                                 // Flag the active suggestion with a class
                                 if (index === activeSuggestionIndex) {
-                                    className = "suggestion-active";
+                                    console.log("🚀 ~ file: Navbar.tsx ~ line 98 ~ {filteredSuggestions.map ~ activeSuggestionIndex", activeSuggestionIndex)
+                                    // console.log('keydown press', suggestion)
                                 }
                                 return (
-                                    <li className="block hover:bg-gray-800 hover:text-red-100" key={suggestion} onClick={onClick}>
+                                    <li className={`block hover:bg-gray-900 hover:text-red-100 last:border-b-2 last:border-zinc-600 last:border-dashed ${index === activeSuggestionIndex && 'bg-gray-700 text-red-100'}`} key={index} onClick={onClick}>
                                         {suggestion}
                                     </li>
                                 );
@@ -96,8 +129,8 @@ const Navbar = () => {
                         </div>
                         )}
 
-                        <button className="absolute bottom-10 right-0 top-18 w-14 h-10 bg-gray-300 rounded-md block  content-center hover:bg-gray-400 active:bg-gray-500"  /* style={{ backgroundColor: "#d9d9d9"}} */ type="submit">
-                            <SvgSearch className=' m-auto' />
+                        <button className="absolute group bottom-10 right-0 top-18 w-14 h-10 bg-gray-300 rounded-md block  content-center hover:bg-gray-400 active:bg-gray-500" type="submit">
+                            <SvgSearch className='transition ease-in-out delay-75 group-active:duration-100 group-active:translate-y-1 m-auto' />
                         </button>
 
                     </form>

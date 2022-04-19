@@ -13,6 +13,9 @@ import SvgAngleCarreGauche from '../images/svg/AngleCarreGauche'
 import SvgAngleCarreDroit from '../images/svg/AngleCarreDroit'
 import anglePetitGauche from "../images/svg/angle-petit-gauche.png"
 import anglePetitDroit from "../images/svg/angle-petit-droit.png"
+import calendar from '../images/svg/calendar.png';
+import localisation from '../images/svg/localisation.png';
+
 
 
 
@@ -98,17 +101,28 @@ export default function Index(props: any) {
                     }}
                     passHref
                   >
-                    <div className='flex-[0_0_350px] p-5 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
+                    <div className='flex-[0_0_350px] flex flex-col p-5 border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
                       <div className=' h-[200px] relative' >
                         {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
                       </div>
-                      <div className='p-5'>
-                        <p className='mb-5 mt-2'>{item.name}</p>
+                      <div className='p-3 grow flex flex-col justify-around'>
+
+                        <p className='h-1/4'>{item.name.toUpperCase()}</p>
                         {/* {item.entities[0] ? <p>{item.entities[0].name}</p> : '' */}
-                        <p className='mb-1'>{item._embedded.venues[0].name} à {item._embedded.venues[0].city.name}</p>
-                        <p>{item.dates.start.localDate} à {item.dates.start.localTime}</p>
-                        {item.priceRanges ? <p>{item.priceRanges[0].min ?? 'no'}</p> : <p>No Price Info</p>}
-                        <p>{item.classifications[0].segment.name}</p>
+                        <div className='h-1/3 bg-stone-600'>
+                          <div className='flex h-2/3'>
+                            <div>
+                              <Image src={localisation} alt="localisation icon" />
+                            </div>
+                            <p className='mb-1 ml-2 text-sm truncate bg-neutral-800'>  {item._embedded.venues[0].name} à {item._embedded.venues[0].city.name}</p>
+
+                          </div>
+                          <p>{item.dates.start.localDate} à {item.dates.start.localTime}</p>
+                        </div>
+                        <div>
+
+                          {item.priceRanges ? <p>{item.priceRanges[0].min ?? 'no'}</p> : <p>No Price Info</p>}
+                        </div>
 
                       </div>
                     </div>
@@ -157,32 +171,32 @@ export async function getStaticProps() {
   const attractions = attractionsJsonRes._embedded.attractions;
 
   const citiesId = [
-    { 
-      name: 'New York', 
-      dmaId: '345'
-    }, 
     {
-      name: 'Los Angeles', 
+      name: 'New York',
+      dmaId: '345'
+    },
+    {
+      name: 'Los Angeles',
       dmaId: '324'
 
-    }, 
+    },
     {
-      name: 'Houston', 
+      name: 'Houston',
       dmaId: '300'
 
-    }, 
+    },
     {
-      name: 'Atlanta', 
+      name: 'Atlanta',
       dmaId: '220'
 
-    }, 
+    },
     {
-      name: 'Phoenix', 
+      name: 'Phoenix',
       dmaId: '359'
 
     }
   ];
-  const pickedCity = citiesId[Math.floor(Math.random()*5)] ;
+  const pickedCity = citiesId[Math.floor(Math.random() * 5)];
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
   const eventsJsonRes = await eventsRes.json();
@@ -192,11 +206,13 @@ export async function getStaticProps() {
     ))
   });
 
+
+
   return {
     props: {
       secrets,
       attractions,
-      events, 
+      events,
       pickedCity: pickedCity.name
     }
   }

@@ -30,12 +30,13 @@ export default function Search(props: any) {
     <div>
 
       <div className='text-3xl  pt-16 pb-8 pl-28'>Les prochaines dates de concerts à {props.pickedCity}</div>
-
+      
+      { !props.errorCode && (
       <div className='overflow-hidden group relative'>
         <div className="" ref={emblaRefEvents}>
 
           <div className="flex box-border divide-x-2 h-[500px] ">
-            {props.events.map((item: any, index: any) => {
+            { props.events.map((item: any, index: any) => {
               return (
                 <Link
                   key={index}
@@ -63,6 +64,9 @@ export default function Search(props: any) {
               )
             })
             }
+            {/* { props.errorCode && ( 
+              <div><p>No results</p></div>
+            )} */}
           </div>
         </div>
         <button className="absolute w-10 h-10 bottom-56 opacity-30 transition ease-in-out delay-100 duration-150 group-hover:opacity-70 left-0" onClick={scrollPrevEvents}>
@@ -72,7 +76,10 @@ export default function Search(props: any) {
           <SvgAngleCarreDroit />
         </button>
       </div>
-
+      )}
+      { props.errorCode && (
+        <div><p>No results</p></div>
+      )}
     </div>
   );
 };
@@ -83,21 +90,24 @@ console.log("🚀 ~ file: Search.tsx ~ line 81 ~ getServerSideProps ~ query", qu
 
 
 
-const dmaId = cities.indexOf(query.city) + 212 
+const dmaId = cities.indexOf(query.city) > -1 ? cities.indexOf(query.city) + 212 : null
 console.log("🚀 ~ file: Search.tsx ~ line 87 ~ getServerSideProps ~ dmaId", dmaId)
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${dmaId}&size=200`);
+  const errorCode = eventsRes.ok ? false : eventsRes.status;
+  console.log("🚀 ~ file: Search.tsx ~ line 91 ~ getServerSideProps ~ errorCode", errorCode)
   const eventsJsonRes = await eventsRes.json();
-  const events = eventsJsonRes._embedded.events.filter((item, index, self) => {
+  const events = !errorCode ? eventsJsonRes._embedded.events.filter((item, index, self) => {
     return index === self.findIndex((t) => (
       t.name === item.name
     ))
-  });
+  }) : null;
 
   return {
     props: {
       events, 
-      pickedCity: query.city
+      pickedCity: query.city, 
+      errorCode
     }
   }
 
