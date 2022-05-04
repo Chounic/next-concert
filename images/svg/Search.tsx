@@ -5,9 +5,7 @@ const SvgSearch = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 513.749 513.749"
-    style={{
-      enableBackground: "new 0 0 513.749 513.749",
-    }}
+
     xmlSpace="preserve"
     width={30}
     height={30} 
