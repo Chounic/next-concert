@@ -204,8 +204,8 @@ export async function getStaticProps() {
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
   const eventsJsonRes = await eventsRes.json();
-  const events = eventsJsonRes._embedded.events.filter((item, index, self) => {
-    return index === self.findIndex((t) => (
+  const events = eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
+    return index === self.findIndex((t: any) => (
       t.name === item.name
     ))
   });

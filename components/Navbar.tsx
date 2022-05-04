@@ -16,7 +16,7 @@ const Navbar = () => {
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     
-    const searchCity = (e) => {
+    const searchCity = (e: any) => {
         const userInput = e.target.value;
 
         const suggestions = cities.filter(item => item.toLowerCase().indexOf(userInput.toLowerCase()) > -1)
@@ -52,7 +52,7 @@ const Navbar = () => {
     }
 
 
-    const onClick = (e) => {
+    const onClick = (e: any) => {
         setFilteredSuggestions([]);
         setCity(e.target.innerText);
         setActiveSuggestionIndex(0);
