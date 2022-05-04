@@ -170,7 +170,7 @@ export async function getStaticProps() {
 
   const secrets = await getSecrets();
 
-  // const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
+  const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   // const attractionsJsonRes = await attractionsRes.json();
   const attr = null;
 
