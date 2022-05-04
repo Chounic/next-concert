@@ -110,7 +110,7 @@ export default function Search(props: any) {
   );
 };
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }: any) {
 
 
 
@@ -120,8 +120,8 @@ const dmaId = cities.indexOf(query.city) > -1 ? cities.indexOf(query.city) + 212
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${dmaId}&size=200`);
   const errorCode = eventsRes.ok ? false : eventsRes.status;
   const eventsJsonRes = await eventsRes.json();
-  const events = !errorCode ? eventsJsonRes._embedded.events.filter((item, index, self) => {
-    return index === self.findIndex((t) => (
+  const events = !errorCode ? eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
+    return index === self.findIndex((t: any) => (
       t.name === item.name
     ))
   }) : null;
