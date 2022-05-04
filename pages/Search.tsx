@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import React, { ReactElement, useCallback } from 'react';
-import ConcertImage from '../components/ConcertImage';
 import Layout from '../components/Layout';
 import { useSpotifyContext } from '../context/SpotifyProvider';
 import useEmblaCarousel from 'embla-carousel-react'
@@ -9,6 +8,9 @@ import Image from 'next/image';
 import SvgAngleCarreGauche from '../images/svg/AngleCarreGauche';
 import SvgAngleCarreDroit from '../images/svg/AngleCarreDroit';
 import { cities } from '../components/content';
+import calendar from '../images/svg/calendar.png';
+import localisation from '../images/svg/localisation.png';
+import punaise from '../images/svg/punaise.png';
 
 
 
@@ -36,34 +38,58 @@ export default function Search(props: any) {
         <div className="" ref={emblaRefEvents}>
 
           <div className="flex box-border divide-x-2 h-[500px] ">
-            { props.events.map((item: any, index: any) => {
-              return (
-                <Link
-                  key={index}
-                  href={{
-                    // pathname: '/Home',
-                    // query: { token: props.secrets.spotify.bearerToken },
-                  }}
-                  passHref
-                >
-                  <div className='flex-[0_0_350px] p-5 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
-                    <div className=' h-[200px] relative' >
-                      {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
-                    </div>
-                    <div className='p-5'>
-                      <p className='mb-5 mt-2'>{item.name}</p>
-                      
-                      <p className='mb-1'>{item._embedded.venues[0].name} à {item._embedded.venues[0].city.name}</p>
-                      <p>{item.dates.start.localDate} à {item.dates.start.localTime}</p>
-                      {item.priceRanges ? <p>{item.priceRanges[0].min ?? 'no'}</p> : <p>No Price Info</p>}
-                      <p>{item.classifications[0].segment.name}</p>
+          {props.events.map((item: any, index: any) => {
+                const itemPriceString = item.priceRanges ? item.priceRanges[0].min.toFixed(2).toString() : null;
+                return (
+                  <Link
+                    key={index}
+                    href={{
+                      // pathname: '/Home',
+                      // query: { token: props.secrets.spotify.bearerToken },
+                    }}
+                    passHref
+                  >
+                    <div className='flex-[0_0_350px] flex flex-col p-5 border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
+                      <div className=' h-[200px] relative' >
+                        {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
+                      </div>
+                      <div className='p-1 grow flex flex-col'>
 
+                        <p className='h-1/4 mt-5 mb-5 overflow-hidden'>{item.name.toUpperCase()}</p>
+                        {/* {item.entities[0] ? <p>{item.entities[0].name}</p> : '' */}
+                        <div className='h-1/3 mb-5'>
+                          <div className='flex h-2/3'>
+                            <div className=''>
+                              <Image src={localisation} alt="localisation icon"/>
+                            </div>
+                            <div className='w-11/12 '>
+
+                            <p className='mb-1 ml-2 text-sm overflow-hidden pl-0'>Hello  {item._embedded.venues[0].name} <span className='flex-nowrap inline-block'>à {item._embedded.venues[0].city.name}</span></p>
+                            </div>
+
+                          </div>
+                          <div className='flex h-1/3'>
+                            <div>
+                              <Image src={calendar} alt="calendar icon" />
+                            </div>
+                            <p className='mb-1 ml-2 text-sm'>{`le ${item.dates.start.localDate}`}{item.dates.start.localTime ? ` à ${item.dates.start.localTime}` : null}</p>
+
+                          </div>
+                        </div>
+                        <div className='flex justify-between'>
+
+                          {item.priceRanges ? <p>À partir de <span className='text-3xl text-red-600 font-semibold'>{Math.floor(item.priceRanges[0].min)}<span className='text-xl align-top font-medium'>{itemPriceString.substring(itemPriceString.indexOf('.')).replace('.', '€')}</span></span></p> : <p className='italic inline-block align-bottom'>Tarif non communiqué</p>}
+                          <button className=' bg-yellow-500 rounded w-28 h-12 mr-1 text-white hover:bg-yellow-300 active:bg-yellow-500' onClick={(e) => e.preventDefault()}>
+                          <Image src={punaise} alt="calendar icon" />                            Réserver
+                          </button>
+                        </div>
+
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              )
-            })
-            }
+                  </Link>
+                )
+              })
+              }
             {/* { props.errorCode && ( 
               <div><p>No results</p></div>
             )} */}
@@ -85,17 +111,14 @@ export default function Search(props: any) {
 };
 
 export async function getServerSideProps({ query }) {
-console.log("🚀 ~ file: Search.tsx ~ line 81 ~ getServerSideProps ~ query", query)
 
 
 
 
 const dmaId = cities.indexOf(query.city) > -1 ? cities.indexOf(query.city) + 212 : null
-console.log("🚀 ~ file: Search.tsx ~ line 87 ~ getServerSideProps ~ dmaId", dmaId)
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${dmaId}&size=200`);
   const errorCode = eventsRes.ok ? false : eventsRes.status;
-  console.log("🚀 ~ file: Search.tsx ~ line 91 ~ getServerSideProps ~ errorCode", errorCode)
   const eventsJsonRes = await eventsRes.json();
   const events = !errorCode ? eventsJsonRes._embedded.events.filter((item, index, self) => {
     return index === self.findIndex((t) => (

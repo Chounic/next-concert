@@ -4,7 +4,12 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {}, 
+    extend: {
+      fontFamily: {
+        myfont: ['Signika'], 
+        myfont2: ['Radio Canada'], 
+      }
+    }, 
     container: {
       center: true, 
     },
