@@ -54,7 +54,7 @@ export default function Index(props: any) {
           <div className="overflow-hidden" ref={emblaRefAttractions}>
 
             <div className="flex box-border divide-x-2 h-[200px] ">
-              {props.attractions.map((item: any, index: any) => {
+              {/* {props.attractions.map((item: any, index: any) => {
                 return (
 
                     <div key={index} className='flex-[0_0_200px] p-2 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
@@ -65,7 +65,7 @@ export default function Index(props: any) {
                     </div>
                 )
               })
-              }
+              } */}
             </div>
           </div>
           <button className="absolute w-10 h-10 bottom-20 opacity-30 transition ease-in-out delay-100 duration-150 group-hover:opacity-70 left-0" onClick={scrollPrevAttractions}>
@@ -172,7 +172,7 @@ export async function getStaticProps() {
 
   const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   const attractionsJsonRes = await attractionsRes.json();
-  const attractions = attractionsJsonRes ? attractionsJsonRes._embedded.attractions : null;
+  const attractions = attractionsJsonRes._embedded.attractions;
 
   const citiesId = [
     {
