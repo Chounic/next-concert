@@ -20,6 +20,7 @@ import punaise from '../images/svg/punaise.png';
 
 
 export default function Index(props: any) {
+console.log("🚀 ~ file: index.tsx ~ line 23 ~ Index ~ props", props.attractions)
 
   const [emblaRefAttractions, emblaApiAttractions] = useEmblaCarousel({ slidesToScroll: 7 })
   const [emblaRefEvents, emblaApiEvents] = useEmblaCarousel({ slidesToScroll: 4 })
@@ -54,7 +55,7 @@ export default function Index(props: any) {
           <div className="overflow-hidden" ref={emblaRefAttractions}>
 
             <div className="flex box-border divide-x-2 h-[200px] ">
-              {/* {props.attractions.map((item: any, index: any) => {
+              {props.attractions._embedded.attractions.map((item: any, index: any) => {
                 return (
 
                     <div key={index} className='flex-[0_0_200px] p-2 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
@@ -65,7 +66,7 @@ export default function Index(props: any) {
                     </div>
                 )
               })
-              } */}
+              }
             </div>
           </div>
           <button className="absolute w-10 h-10 bottom-20 opacity-30 transition ease-in-out delay-100 duration-150 group-hover:opacity-70 left-0" onClick={scrollPrevAttractions}>
@@ -83,7 +84,7 @@ export default function Index(props: any) {
           <div className="" ref={emblaRefEvents}>
 
             <div className="flex box-border divide-x-2 h-[500px] ">
-              {props.events.map((item: any, index: any) => {
+              {props.events._embedded.events.map((item: any, index: any) => {
                 const itemPriceString = item.priceRanges ? item.priceRanges[0].min.toFixed(2).toString() : null;
                 return (
                   // <Link
@@ -203,11 +204,11 @@ export async function getStaticProps() {
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
   const eventsJsonRes = await eventsRes.json();
-  const events = eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
-    return index === self.findIndex((t: any) => (
-      t.name === item.name
-    ))
-  });
+  // const events = eventsJsonRes.filter((item: any, index: number, self: any) => {
+  //   return index === self.findIndex((t: any) => (
+  //     t.name === item.name
+  //   ))
+  // });
 
 
 
@@ -215,7 +216,7 @@ export async function getStaticProps() {
     props: {
       secrets,
       attractions: attractionsJsonRes,
-      events,
+      events: eventsJsonRes,
       pickedCity: pickedCity.name
     }
   }
