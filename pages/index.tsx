@@ -55,7 +55,7 @@ console.log("🚀 ~ file: index.tsx ~ line 23 ~ Index ~ props", props.attraction
           <div className="overflow-hidden" ref={emblaRefAttractions}>
 
             <div className="flex box-border divide-x-2 h-[200px] ">
-              {props.attractions._embedded.attractions.map((item: any, index: any) => {
+              {props.attractions && props.attractions._embedded.attractions.map((item: any, index: any) => {
                 return (
 
                     <div key={index} className='flex-[0_0_200px] p-2 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
