@@ -54,7 +54,7 @@ export default function Index(props: any) {
           <div className="overflow-hidden" ref={emblaRefAttractions}>
 
             <div className="flex box-border divide-x-2 h-[200px] ">
-              {props.attractions !== undefined && props.attractions._embedded.attractions.map((item: any, index: any) => {
+              {props.attractions.map((item: any, index: any) => {
                 return (
 
                     <div key={index} className='flex-[0_0_200px] p-2 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
@@ -83,7 +83,7 @@ export default function Index(props: any) {
           <div className="" ref={emblaRefEvents}>
 
             <div className="flex box-border divide-x-2 h-[500px] ">
-              {props.events._embedded.events.map((item: any, index: any) => {
+              {props.events.map((item: any, index: any) => {
                 const itemPriceString = item.priceRanges ? item.priceRanges[0].min.toFixed(2).toString() : null;
                 return (
                   // <Link
@@ -172,7 +172,9 @@ export async function getStaticProps() {
 
   const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   const attractionsJsonRes = await attractionsRes.json();
-  // const attractions = attractionsJsonRes._embedded.attractions ;
+  let attractions ;
+  if (!attractionsJsonRes) return null
+  else attractions = attractionsJsonRes._embedded.attractions ;
   const citiesId = [
     {
       name: 'New York',
@@ -203,19 +205,19 @@ export async function getStaticProps() {
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
   const eventsJsonRes = await eventsRes.json();
-  // const events = eventsJsonRes.filter((item: any, index: number, self: any) => {
-  //   return index === self.findIndex((t: any) => (
-  //     t.name === item.name
-  //   ))
-  // });
+  const events = eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
+    return index === self.findIndex((t: any) => (
+      t.name === item.name
+    ))
+  });
 
 
 
   return {
     props: {
       secrets,
-      attractions: attractionsJsonRes,
-      events: eventsJsonRes,
+      attractions,
+      events,
       pickedCity: pickedCity.name
     }
   }
