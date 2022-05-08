@@ -20,6 +20,7 @@ import punaise from '../images/svg/punaise.png';
 
 
 export default function Index(props: any) {
+console.log("🚀 ~ file: index.tsx ~ line 23 ~ Index ~ props", props.attractions ?? 'allo')
 
   const [emblaRefAttractions, emblaApiAttractions] = useEmblaCarousel({ slidesToScroll: 7 })
   const [emblaRefEvents, emblaApiEvents] = useEmblaCarousel({ slidesToScroll: 4 })
