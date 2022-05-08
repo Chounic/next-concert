@@ -174,7 +174,7 @@ export async function getStaticProps() {
   const attractionsJsonRes = await attractionsRes.json();
   let attractions ;
   if (!attractionsJsonRes._links) {
-    return null
+     null
   } else {
     attractions = attractionsJsonRes._links;
   }
