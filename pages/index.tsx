@@ -168,7 +168,7 @@ export async function getStaticProps() {
   return {
     props: {
       secrets,
-      attractions: embeddedAttractions,
+      attractions: embeddedAttractions || null,
       events: embeddedEvents,
       pickedCity: pickedCity.name
     }
