@@ -173,9 +173,8 @@ export async function getStaticProps() {
   const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   const attractionsJsonRes = await attractionsRes.json();
   let attractions ;
-  if (!attractionsJsonRes._links) {
-     null
-  } else {
+  if (!attractionsJsonRes._links) null
+  else {
     attractions = attractionsJsonRes._links;
   }
   const citiesId = [
