@@ -209,11 +209,11 @@ export async function getStaticProps() {
   let embeddedEvents ;
   if (!eventsJsonRes._embedded) null
   else embeddedEvents = eventsJsonRes._embedded;
-  const events = embeddedEvents.events.filter((item: any, index: number, self: any) => {
-    return index === self.findIndex((t: any) => (
-      t.name === item.name
-    ))
-  });
+  // const events = embeddedEvents.events.filter((item: any, index: number, self: any) => {
+  //   return index === self.findIndex((t: any) => (
+  //     t.name === item.name
+  //   ))
+  // });
 
 
 
@@ -221,7 +221,7 @@ export async function getStaticProps() {
     props: {
       secrets,
       attractions: embeddedAttractions.attractions,
-      events,
+      events: embeddedEvents.events,
       pickedCity: pickedCity.name
     }
   }
