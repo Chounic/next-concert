@@ -174,9 +174,8 @@ export async function getStaticProps() {
   const attractionsJsonRes = await attractionsRes.json();
   let attractions ;
   if (!attractionsJsonRes._links) null
-  else {
-    attractions = attractionsJsonRes._links;
-  }
+  else attractions = attractionsJsonRes._links;
+  
   const citiesId = [
     {
       name: 'New York',
