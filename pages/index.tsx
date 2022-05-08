@@ -54,7 +54,7 @@ export default function Index(props: any) {
         <div className="overflow-hidden" ref={emblaRefAttractions}>
 
           <div className="flex box-border divide-x-2 h-[200px] ">
-            {props.attractions.map((item: any, index: any) => {
+            {/* {props.attractions.map((item: any, index: any) => {
               return (
 
                 <div key={index} className='flex-[0_0_200px] p-2 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
@@ -65,7 +65,7 @@ export default function Index(props: any) {
                 </div>
               )
             })
-            }
+            } */}
           </div>
         </div>
         <button className="absolute w-10 h-10 bottom-20 opacity-30 transition ease-in-out delay-100 duration-150 group-hover:opacity-70 left-0" onClick={scrollPrevAttractions}>
@@ -83,58 +83,6 @@ export default function Index(props: any) {
         <div className="" ref={emblaRefEvents}>
 
           <div className="flex box-border divide-x-2 h-[500px] ">
-            {props.events.map((item: any, index: any) => {
-              const itemPriceString = item.priceRanges ? item.priceRanges[0].min.toFixed(2).toString() : null;
-              return (
-                // <Link
-                //   key={index}
-                //   href={{
-                //     pathname: '/Home',
-                //     query: { token: props.secrets.spotify.bearerToken },
-                //   }}
-                //   passHref
-                // >
-                <div key={index} className='flex-[0_0_350px] flex flex-col p-5 border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
-                  <div className=' h-[200px] relative' >
-                    {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
-                  </div>
-                  <div className='p-1 grow flex flex-col'>
-
-                    <p className='h-1/4 mt-5 mb-5 overflow-hidden'>{item.name.toUpperCase()}</p>
-                    {/* {item.entities[0] ? <p>{item.entities[0].name}</p> : '' */}
-                    <div className='h-1/3 mb-5'>
-                      <div className='flex h-2/3'>
-                        <div className=''>
-                          <Image src={localisation} alt="localisation icon" />
-                        </div>
-                        <div className='w-11/12 '>
-
-                          <p className='mb-1 ml-2 text-sm overflow-hidden pl-0'>Hello  {item._embedded.venues[0].name} <span className='flex-nowrap inline-block'>à {item._embedded.venues[0].city.name}</span></p>
-                        </div>
-
-                      </div>
-                      <div className='flex h-1/3'>
-                        <div>
-                          <Image src={calendar} alt="calendar icon" />
-                        </div>
-                        <p className='mb-1 ml-2 text-sm'>{`le ${item.dates.start.localDate}`}{item.dates.start.localTime ? ` à ${item.dates.start.localTime}` : null}</p>
-
-                      </div>
-                    </div>
-                    <div className='flex justify-between'>
-
-                      {item.priceRanges ? <p>À partir de <span className='text-3xl text-red-600 font-semibold'>{Math.floor(item.priceRanges[0].min)}<span className='text-xl align-top font-medium'>{itemPriceString.substring(itemPriceString.indexOf('.')).replace('.', '€')}</span></span></p> : <p className='italic inline-block align-bottom'>Tarif non communiqué</p>}
-                      <button className=' bg-yellow-500 rounded w-28 h-12 mr-1 text-white hover:bg-yellow-300 active:bg-yellow-500' onClick={(e) => e.preventDefault()}>
-                        <Image src={punaise} alt="calendar icon" />                            Réserver
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-                // </Link>
-              )
-            })
-            }
           </div>
         </div>
         <button className="absolute w-10 h-10 bottom-56 opacity-30 transition ease-in-out delay-100 duration-150 group-hover:opacity-70 left-0" onClick={scrollPrevEvents}>
