@@ -166,7 +166,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
 
 
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 
   const secrets = await getSecrets();
 
@@ -216,7 +216,7 @@ export async function getServerSideProps() {
   return {
     props: {
       secrets,
-      attractions,
+      // attractions,
       events,
       pickedCity: pickedCity.name
     }
