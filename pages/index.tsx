@@ -166,7 +166,7 @@ Index.getLayout = function getLayout(page: ReactElement) {
 
 
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
   const secrets = await getSecrets();
 
