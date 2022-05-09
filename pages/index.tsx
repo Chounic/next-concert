@@ -21,14 +21,6 @@ import punaise from '../images/svg/punaise.png';
 
 export default function Index(props: any) {
 
-  const [attractions, setAttractions] = useState();
-  console.log("🚀 ~ file: index.tsx ~ line 25 ~ Index ~ attractions", attractions)
-
-
-
-  useEffect(() => {
-    setAttractions(props.attractions);
-  }, [props.attractions])
 
   const [emblaRefAttractions, emblaApiAttractions] = useEmblaCarousel({ slidesToScroll: 7 })
   const [emblaRefEvents, emblaApiEvents] = useEmblaCarousel({ slidesToScroll: 4 })
@@ -129,9 +121,7 @@ export async function getStaticProps() {
 
   const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   const attractionsJsonRes = await attractionsRes.json();
-  let embeddedAttractions;
-  if (!attractionsJsonRes._embedded) null
-  else embeddedAttractions = attractionsJsonRes._embedded;
+  console.log("🚀 ~ file: index.tsx ~ line 124 ~ getStaticProps ~ attractionsJsonRes", attractionsJsonRes._embedded.attractions)
 
   const citiesId = [
     {
@@ -163,9 +153,9 @@ export async function getStaticProps() {
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
   const eventsJsonRes = await eventsRes.json();
-  let embeddedEvents;
-  if (!eventsJsonRes._links) null
-  else embeddedEvents = eventsJsonRes._links;
+  // let embeddedEvents;
+  // if (!eventsJsonRes._links) null
+  // else embeddedEvents = eventsJsonRes._links;
   // const events = embeddedEvents.events.filter((item: any, index: number, self: any) => {
   //   return index === self.findIndex((t: any) => (
   //     t.name === item.name
@@ -177,8 +167,8 @@ export async function getStaticProps() {
   return {
     props: {
       secrets,
-      attractions: embeddedAttractions || null,
-      events: embeddedEvents || null,
+      attractions: attractionsJsonRes._embedded.attractions,
+      events: attractionsJsonRes._embedded.events,
       pickedCity: pickedCity.name
     }
   }
