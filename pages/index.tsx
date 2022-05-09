@@ -22,6 +22,7 @@ import punaise from '../images/svg/punaise.png';
 export default function Index(props: any) {
 
   const [attractions, setAttractions] = useState();
+  console.log("🚀 ~ file: index.tsx ~ line 25 ~ Index ~ attractions", attractions)
 
 
 
