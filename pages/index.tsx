@@ -121,7 +121,7 @@ export async function getStaticProps() {
 
   const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   const attractionsJsonRes = await attractionsRes.json();
-  console.log("🚀 ~ file: index.tsx ~ line 124 ~ getStaticProps ~ attractionsJsonRes", attractionsJsonRes._embedded.attractions)
+  const attractions = attractionsJsonRes._embedded.attractions ;
 
   const citiesId = [
     {
@@ -153,22 +153,19 @@ export async function getStaticProps() {
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
   const eventsJsonRes = await eventsRes.json();
-  // let embeddedEvents;
-  // if (!eventsJsonRes._links) null
-  // else embeddedEvents = eventsJsonRes._links;
-  // const events = embeddedEvents.events.filter((item: any, index: number, self: any) => {
-  //   return index === self.findIndex((t: any) => (
-  //     t.name === item.name
-  //   ))
-  // });
+  const events = eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
+    return index === self.findIndex((t: any) => (
+      t.name === item.name
+    ))
+  });
 
 
 
   return {
     props: {
       secrets,
-      attractions: attractionsJsonRes._embedded.attractions,
-      events: attractionsJsonRes._embedded.events,
+      attractions,
+      events,
       pickedCity: pickedCity.name
     }
   }
