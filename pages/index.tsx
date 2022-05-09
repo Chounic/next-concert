@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ReactElement, useCallback, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import { SpotifyContext } from '../context/SpotifyProvider'
 import styles from '../styles/Home.module.css'
@@ -20,7 +20,14 @@ import punaise from '../images/svg/punaise.png';
 
 
 export default function Index(props: any) {
-console.log("🚀 ~ file: index.tsx ~ line 23 ~ Index ~ props", props.attractions ?? 'allo')
+
+  const [attractions, setAttractions] = useState();
+
+
+
+  useEffect(() => {
+    setAttractions(props.attractions);
+  }, [props.attractions])
 
   const [emblaRefAttractions, emblaApiAttractions] = useEmblaCarousel({ slidesToScroll: 7 })
   const [emblaRefEvents, emblaApiEvents] = useEmblaCarousel({ slidesToScroll: 4 })
@@ -121,7 +128,7 @@ export async function getStaticProps() {
 
   const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   const attractionsJsonRes = await attractionsRes.json();
-  let embeddedAttractions ;
+  let embeddedAttractions;
   if (!attractionsJsonRes._embedded) null
   else embeddedAttractions = attractionsJsonRes._embedded;
 
@@ -155,7 +162,7 @@ export async function getStaticProps() {
 
   const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
   const eventsJsonRes = await eventsRes.json();
-  let embeddedEvents ;
+  let embeddedEvents;
   if (!eventsJsonRes._links) null
   else embeddedEvents = eventsJsonRes._links;
   // const events = embeddedEvents.events.filter((item: any, index: number, self: any) => {
