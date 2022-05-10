@@ -50,7 +50,7 @@ export default function Index(props: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className=' text-2xl lg:text-3xl py-8 pl-12 lg:pl-28'>Tous les artistes du moment</div>
+      <div className=' text-2xl lg:text-3xl font-thin py-8 pl-12 lg:pl-28'>Tous les artistes du moment</div>
       <div className='overflow-hidden group relative px-10'>
         <div className="overflow-hidden" ref={emblaRefAttractions}>
 
@@ -78,7 +78,7 @@ export default function Index(props: any) {
       </div>
 
 
-      <div className=' text-2xl lg:text-3xl pt-16 pb-8 pl-12 lg:pl-28'>Les prochaines dates de concerts à {props.pickedCity}</div>
+      <div className=' text-2xl font-thin lg:text-3xl pt-16 pb-8 pl-12 lg:pl-28'>Les prochaines dates de concerts à {props.pickedCity}</div>
 
       <div className='overflow-hidden group relative'>
         <div className="" ref={emblaRefEvents}>

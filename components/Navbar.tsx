@@ -7,6 +7,7 @@ import backgroundHeaderImage from '../images/svg/concert-header-image3.jpg';
 import SvgSearch from '../images/svg/Search';
 import { useRouter } from 'next/router';
 import { cities } from './content';
+import SvgMenuBurger from '../images/svg/MenuBurger';
 
 const Navbar = () => {
 
@@ -15,7 +16,7 @@ const Navbar = () => {
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
     const [showSuggestions, setShowSuggestions] = useState(false);
 
-    
+
     const searchCity = (e: any) => {
         const userInput = e.target.value;
 
@@ -25,10 +26,10 @@ const Navbar = () => {
         setFilteredSuggestions(suggestions);
         setActiveSuggestionIndex(0);
         setShowSuggestions(true);
-    } 
+    }
 
-    const onKeyDown = (event:any) => {
-        if (event.keyCode === 40 && activeSuggestionIndex < (filteredSuggestions.length-1)) {
+    const onKeyDown = (event: any) => {
+        if (event.keyCode === 40 && activeSuggestionIndex < (filteredSuggestions.length - 1)) {
             setActiveSuggestionIndex((prev) => prev + 1);
         }
         if (event.keyCode === 38 && activeSuggestionIndex > 0) {
@@ -59,10 +60,10 @@ const Navbar = () => {
         setShowSuggestions(false);
     };
 
-    const handleSubmit = (e:any) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
-        
-        
+
+
         city && router.push({
             pathname: '/Search',
             query: { city: city }
@@ -80,25 +81,28 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className='grid grid-cols-12 md:px-32 bg-orange-50 items-center font-myfont '>
-                <div className='flex col-span-4 ml-5'>
+            <nav className='grid grid-cols-12 md:px-24 lg:px-32 bg-orange-50 items-center font-myfont '>
+                <button className="group w-12 mr h-10 mx-10 bg-slate-900 rounded-md block content-center hover:bg-gray-400 active:bg-gray-500 sm:hidden" type="submit">
+                    <SvgMenuBurger className='fill-orange-50 m-auto' />
+                </button>
+                <div className='flex col-span-4 ml-20 sm:ml-5'>
                     <button className='w-20 h-20 flex justify-center items-center cursor-pointer' onClick={backToHome} >
-                        <Image src={logoImage} alt="artist photo" layout='fixed' width={60} height={60} className='self-auto'/>
+                        <Image src={logoImage} alt="artist photo" layout='fixed' width={60} height={60} className='self-auto' />
                     </button>
-                    <p className='text-2xl block self-center text-zinc-800'>Next Concerts</p>
+                    <p className='text-base mx-2 sm:mx-0 lg:text-xl 2xl:text-2xl block self-center text-zinc-800'>Next Concerts</p>
                 </div>
 
-                <ul className='flex px-6 gap-x-4 col-span-8 justify-self-end mr-2'>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                <ul className='px-6 gap-x-4 col-span-8 justify-self-end mr-2 hidden sm:inline-flex'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 1</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 2</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 3</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 4</a>
                     </li>
                     <SvgUtilisateur />
@@ -115,21 +119,21 @@ const Navbar = () => {
 
                         {showSuggestions && city && (
 
-                        <div className="h-5/6 w-11/12  mx-auto">
+                            <div className="h-5/6 w-11/12  mx-auto">
 
-                        <ul className=" max-h-60 overflow-y-scroll bg-slate-200 rounded-md divide-y-2 divide-dashed divide-zinc-600 pl-1">
-                            {filteredSuggestions.map((suggestion, index) => {
-                                let className;
-                                // Flag the active suggestion with a class
+                                <ul className=" max-h-60 overflow-y-scroll bg-slate-200 rounded-md divide-y-2 divide-dashed divide-zinc-600 pl-1">
+                                    {filteredSuggestions.map((suggestion, index) => {
+                                        let className;
+                                        // Flag the active suggestion with a class
 
-                                return (
-                                    <li className={`block hover:bg-gray-900 hover:text-red-100 last:border-b-2 last:border-zinc-600 last:border-dashed ${index === activeSuggestionIndex && 'bg-gray-700 text-red-100'}`} key={index} onClick={onClick}>
-                                        {suggestion}
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                        </div>
+                                        return (
+                                            <li className={`block hover:bg-gray-900 hover:text-red-100 last:border-b-2 last:border-zinc-600 last:border-dashed ${index === activeSuggestionIndex && 'bg-gray-700 text-red-100'}`} key={index} onClick={onClick}>
+                                                {suggestion}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
                         )}
 
                         <button className="absolute group bottom-10 right-3 sm:right-20 md:right-16 lg:right-5 xl:right-16 2xl:right-4 top-14 w-14 h-10 bg-gray-300 rounded-md block content-center hover:bg-gray-400 active:bg-gray-500" type="submit">
