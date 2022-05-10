@@ -69,28 +69,41 @@ const Navbar = () => {
         })
     }
 
+    const backToHome = () => {
+        router.push('/');
+        setCity('');
+    }
+
     const router = useRouter()
 
 
 
     return (
         <>
-            <div className='grid grid-cols-12 md:px-32 bg-orange-50 items-center font-myfont '>
+            <nav className='grid grid-cols-12 md:px-32 bg-orange-50 items-center font-myfont '>
                 <div className='flex col-span-4 ml-5'>
-                    <button className='w-20 h-20 flex justify-center items-center cursor-pointer' onClick={() => router.push('/')} >
+                    <button className='w-20 h-20 flex justify-center items-center cursor-pointer' onClick={backToHome} >
                         <Image src={logoImage} alt="artist photo" layout='fixed' width={60} height={60} className='self-auto'/>
                     </button>
                     <p className='text-2xl block self-center text-zinc-800'>Next Concerts</p>
                 </div>
 
-                <div className='flex px-6 gap-x-4 col-span-8 justify-self-end mr-2'>
-                    <p className='py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>Menu 1</p>
-                    <p className='py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>Menu 2</p>
-                    <p className='py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>Menu 3</p>
-                    <p className='py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>Menu 4</p>
+                <ul className='flex px-6 gap-x-4 col-span-8 justify-self-end mr-2'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                        <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 1</a>
+                    </li>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                        <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 2</a>
+                    </li>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                        <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 3</a>
+                    </li>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                        <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 4</a>
+                    </li>
                     <SvgUtilisateur />
-                </div>
-            </div>
+                </ul>
+            </nav>
             <div className=' w-10/12 h-1 bg-neutral-900 mx-auto'></div>
             <div className='relative h-96 pt-20 brightness-75 grayscale-[30%] saturate-50 font-myfont2'>
                 <Image src={backgroundHeaderImage} alt="" layout='fill' objectFit='cover' />
