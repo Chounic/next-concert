@@ -89,20 +89,20 @@ const Navbar = () => {
                     <button className='w-20 h-20 flex justify-center items-center cursor-pointer' onClick={backToHome} >
                         <Image src={logoImage} alt="artist photo" layout='fixed' width={60} height={60} className='self-auto' />
                     </button>
-                    <p className='text-base mx-2 sm:mx-0 lg:text-xl 2xl:text-2xl block self-center text-zinc-800'>Next Concerts</p>
+                    <p className='text-base mx-2 sm:mx-0 lg:text-lg 2xl:text-2xl block self-center text-zinc-800'>Next Concerts</p>
                 </div>
 
                 <ul className='px-6 gap-x-4 col-span-8 justify-self-end mr-2 hidden sm:inline-flex'>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 1</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 2</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 3</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  lg:text-base 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 4</a>
                     </li>
                     <SvgUtilisateur />
@@ -115,7 +115,7 @@ const Navbar = () => {
                     <p className='inline-block my-auto text-red-50 text-sm md:text-base  xl:text-lg 2xl:text-xl w-1/3 md:w-1/2 lg:w-2/5 2xl:w-1/2 pr-8'>Tous les concerts à venir, partout aux US, quelque soit le style. Ne ratez aucun évènement avec vos artistes préférés.</p>
                     <form onSubmit={handleSubmit} className='static md:w-1/3 lg:w-80 xl:w-96'>
 
-                        <input type="search" value={city} onChange={searchCity} onKeyDown={onKeyDown} className="form-input align-middle text-xl h-12 pl-6 mt-9 md:w-full rounded-full placeholder:italic placeholder:text-xl placeholder:text-neutral-400" placeholder='Choisis une ville'></input>
+                        <input type="search" value={city} onChange={searchCity} onKeyDown={onKeyDown} className="form-input align-middle text-xl h-12 pl-6 mt-9 md:w-full rounded-full placeholder:italic placeholder:text-base placeholder:text-neutral-400" placeholder='Choisis une ville'></input>
 
                         {showSuggestions && city && (
 

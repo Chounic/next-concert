@@ -6,7 +6,7 @@ const Layout = ({children}: any) => {
     return (
 <>
 <Navbar />
-<main className='container bg-neutral-100 font-myfont'>{children}</main>
+<main className='container bg-neutral-100 font-myfont2'>{children}</main>
 <Footer/>
 </>
     );
