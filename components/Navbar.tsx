@@ -93,16 +93,16 @@ const Navbar = () => {
                 </div>
 
                 <ul className='px-6 gap-x-4 col-span-8 justify-self-end mr-2 hidden sm:inline-flex'>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm 2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm 2xl:text-base text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 1</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-base text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 2</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-base text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 3</a>
                     </li>
-                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-lg text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
+                    <li className='group py-2 xl:px-2 2xl:px-6 rounded-md text-sm  2xl:text-base text-zinc-800 ease-in duration-200 hover:bg-slate-900 hover:text-zinc-100 cursor-pointer'>
                         <a className='inline-block ease-in duration-300 group-hover:-translate-y-1.5'>Menu 4</a>
                     </li>
                     <SvgUtilisateur />
