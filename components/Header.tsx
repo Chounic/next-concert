@@ -8,13 +8,15 @@ import SvgSearch from '../images/svg/Search';
 import { useRouter } from 'next/router';
 import { cities } from './content';
 import SvgMenuBurger from '../images/svg/MenuBurger';
+import { AnimatePresence, motion } from "framer-motion"
 
-const Navbar = () => {
+const Header = () => {
 
     const [city, setCity] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
 
 
     const searchCity = (e: any) => {
@@ -77,14 +79,51 @@ const Navbar = () => {
 
     const router = useRouter()
 
+    const variants = {
+        visible: (i: number) => ({ 
+            opacity: 1, 
+            y: 50, 
+            transition: {
+                type: 'spring', 
+                delay: i * 0.3, 
+                bounce: 1, 
+                stiffness: 300
+            }, 
+        }),
+        hidden: { 
+            opacity: 0, 
+        }, 
+        exit: (i: number) => ({ 
+            opacity: 0, 
+            transition: {
+                delay: (3 - i) * 0.02
+            } 
+        }),
+      }
+
 
 
     return (
         <>
             <nav className='grid grid-cols-12 md:px-24 lg:px-32 bg-orange-50 items-center font-myfont '>
-                <button className="group w-12 mr h-10 mx-10 bg-slate-900 rounded-md block content-center hover:bg-gray-400 active:bg-gray-500 sm:hidden" type="submit">
+                <button className="group peer w-12 mr h-10 mx-10 bg-slate-900 rounded-md block content-center hover:bg-gray-400 active:bg-gray-500 sm:hidden" onClick={() => setShowMenu(!showMenu)} type="submit">
                     <SvgMenuBurger className='fill-orange-50 m-auto' />
                 </button>
+                <AnimatePresence>
+                {showMenu && (
+                    // <div className='absolute w-full bg-orange-500'>
+                        <motion.ul className='absolute sm:hidden z-10 top-20 w-full'>
+                            { ["Menu 1", "Menu 2", "Menu 3", "Menu 4"].map((item, i) => (
+
+                            <motion.li key={i} custom={i} animate='visible' initial='hidden' exit='exit'    variants={variants} className='bg-slate-50 group h-14 flex items-center hover:bg-gray-400 active:bg-gray-300'>
+                                <motion.a className='text-lg group-hover:text-2xl'>{item}</motion.a>
+                            </motion.li>
+                            )) 
+                            }
+                        </motion.ul>
+                    // </div>
+                )}
+                </AnimatePresence>
                 <div className='flex col-span-4 ml-20 sm:ml-5'>
                     <button className='w-20 h-20 flex justify-center items-center cursor-pointer' onClick={backToHome} >
                         <Image src={logoImage} alt="artist photo" layout='fixed' width={60} height={60} className='self-auto' />
@@ -147,4 +186,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Header;
