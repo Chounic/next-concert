@@ -10,7 +10,7 @@ import { cities } from './content';
 import SvgMenuBurger from '../images/svg/MenuBurger';
 import { AnimatePresence, motion } from "framer-motion"
 
-const Header = () => {
+const Header = ( props: any ) => {
 
     const [city, setCity] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
@@ -77,9 +77,28 @@ const Header = () => {
         setCity('');
     }
 
+    const menuFullScreen = () => {
+        setShowMenu(!showMenu);
+        props.switchMenuDisplay();
+    }
+
     const router = useRouter()
 
-    const variants = {
+    const variants = { 
+        menuFullScreen: {
+            height: '100vh', 
+            transition: { 
+                duration: 0.5, 
+                type: "tween", 
+                position: 'absolute'
+            }
+        }, 
+        menuNormal: {
+            height: 80, 
+            transition: { 
+                duration: 0.5, 
+                type: "tween" }
+        }, 
         visible: (i: number) => ({ 
             opacity: 1, 
             y: 50, 
@@ -105,18 +124,18 @@ const Header = () => {
 
     return (
         <>
-            <nav className='grid grid-cols-12 md:px-24 lg:px-32 bg-orange-50 items-center font-myfont '>
-                <button className="group peer w-12 mr h-10 mx-10 bg-slate-900 rounded-md block content-center hover:bg-gray-400 active:bg-gray-500 sm:hidden" onClick={() => setShowMenu(!showMenu)} type="submit">
+            <motion.nav animate={ showMenu ? "menuFullScreen" : "menuNormal" } variants={variants} className='grid grid-cols-12 md:px-24 lg:px-32 bg-orange-50 items-center font-myfont'>
+                <button className="group peer fixed top-6 sm:static w-12 mr h-10 mx-10 bg-slate-900 rounded-md block content-center sm:hidden" onClick={() => menuFullScreen()} type="submit">
                     <SvgMenuBurger className='fill-orange-50 m-auto' />
                 </button>
                 <AnimatePresence>
                 {showMenu && (
                     // <div className='absolute w-full bg-orange-500'>
-                        <motion.ul className='absolute sm:hidden z-10 top-20 w-full'>
+                        <motion.ul className='absolute sm:hidden z-10 top-10 w-full'>
                             { ["Menu 1", "Menu 2", "Menu 3", "Menu 4"].map((item, i) => (
 
-                            <motion.li key={i} custom={i} animate='visible' initial='hidden' exit='exit'    variants={variants} className='bg-slate-50 group h-14 flex items-center hover:bg-gray-400 active:bg-gray-300'>
-                                <motion.a className='text-lg group-hover:text-2xl'>{item}</motion.a>
+                            <motion.li key={i} custom={i} animate='visible' initial='hidden' exit='exit'    variants={variants} className=' group h-14 flex items-center hover:bg-gray-400 active:bg-gray-300'>
+                                <motion.a className='text-lg ml-10 group-hover:text-2xl'>{item}</motion.a>
                             </motion.li>
                             )) 
                             }
@@ -124,7 +143,7 @@ const Header = () => {
                     // </div>
                 )}
                 </AnimatePresence>
-                <div className='flex col-span-4 ml-20 sm:ml-5'>
+                <div className='flex fixed sm:static left-7 top-0 col-span-4 ml-20 sm:ml-5'>
                     <button className='w-20 h-20 flex justify-center items-center cursor-pointer' onClick={backToHome} >
                         <Image src={logoImage} alt="artist photo" layout='fixed' width={60} height={60} className='self-auto' />
                     </button>
@@ -146,9 +165,10 @@ const Header = () => {
                     </li>
                     <SvgUtilisateur />
                 </ul>
-            </nav>
+            </motion.nav>
             <div className=' w-10/12 h-1 bg-neutral-900 mx-auto'></div>
-            <div className='relative h-96 pt-20 brightness-75 grayscale-[30%] saturate-50 font-myfont2'>
+{           !showMenu && (
+                 <div className='relative h-96 pt-20 brightness-75 grayscale-[30%] saturate-50 font-myfont2'>
                 <Image src={backgroundHeaderImage} alt="" layout='fill' objectFit='cover' />
                 <div className='flex shadow-2xl shadow-slate-700 backdrop-brightness-75 backdrop-blur-sm rounded-xl md:w-11/12 md:mx-auto lg:w-2/3 lg:ml-24 xl:ml-52 p-4 2xl:w-3/5 2xl:max-w-[950px] h-36'>
                     <p className='inline-block my-auto text-red-50 text-sm md:text-base  xl:text-lg 2xl:text-xl w-1/3 md:w-1/2 lg:w-2/5 2xl:w-1/2 pr-8'>Tous les concerts à venir, partout aux US, quelque soit le style. Ne ratez aucun évènement avec vos artistes préférés.</p>
@@ -182,6 +202,8 @@ const Header = () => {
                     </form>
                 </div>
             </div>
+            )
+            }
         </>
     );
 };
