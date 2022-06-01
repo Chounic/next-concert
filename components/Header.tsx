@@ -141,22 +141,21 @@ const Header = (props: any) => {
     return (
         <>
             <motion.nav animate={showMenu && windowSize !== undefined && windowSize < 640 ? "menuFullScreen" : "menuNormal"} variants={variants} className='grid grid-cols-12 md:px-24 lg:px-32 bg-orange-50 items-center font-myfont'>
-                <button className="group peer absolute top-6 sm:static w-12 mr h-10 mx-10 bg-slate-900 rounded-md block content-center sm:hidden" onClick={() => setShowMenu(!showMenu)}>
+                <button className="group peer absolute top-6 sm:static w-12 mr h-10 mx-10 bg-black rounded-md block content-center sm:hidden active:scale-105 active:bg" onClick={() => setShowMenu(!showMenu)}>
                     <SvgMenuBurger className='fill-orange-50 m-auto' />
                 </button>
                 <AnimatePresence>
                     {showMenu && (
-                        // <div className='absolute w-full bg-orange-500'>
-                        <motion.ul className='absolute sm:hidden z-10 top-20 w-full'>
+                        <motion.ul className='absolute sm:hidden z-10 top-20 ml-10'>
                             {["Menu 1", "Menu 2", "Menu 3", "Menu 4"].map((item, i) => (
 
-                                <motion.li key={i} custom={i} animate='visible' initial='hidden' exit='exit' variants={variants} className=' group h-14 flex items-center hover:bg-gray-400 active:bg-gray-300'>
-                                    <motion.a className='text-lg ml-10 group-hover:text-2xl'>{item}</motion.a>
+                                <motion.li key={i} custom={i} animate='visible' initial='hidden' exit='exit' variants={variants} className='group h-10 my-6 flex items-center active:text-zinc-700'>
+                                    <motion.a className='text-lg after:absolute after:w-full after:bg-zinc-900 after:h-0.5 after:bottom-0 after:left-0 after:origin-center after:transition-transform after:duration-500 after:ease-out after:scale-x-0 hover:after:scale-x-100 hover:after:origin-center '>{item}</motion.a>
                                 </motion.li>
                             ))
                             }
                         </motion.ul>
-                        // </div>
+                        
                     )}
                 </AnimatePresence>
                 <div className='flex absolute sm:static left-7 top-0 col-span-4 ml-20 sm:ml-5'>
@@ -188,9 +187,13 @@ const Header = (props: any) => {
                     <Image src={backgroundHeaderImage} alt="" layout='fill' objectFit='cover' />
                     <div className='flex shadow-2xl shadow-slate-700 backdrop-brightness-75 backdrop-blur-sm rounded-xl md:w-11/12 md:mx-auto lg:w-2/3 lg:ml-24 xl:ml-52 p-4 2xl:w-3/5 2xl:max-w-[950px] h-36'>
                         <p className='hidden sm:inline-block my-auto text-red-50 text-sm md:text-base  xl:text-lg 2xl:text-xl w-1/3 md:w-1/2 lg:w-2/5 2xl:w-1/2 pr-8'>Tous les concerts à venir, partout aux US, quelque soit le style. Ne ratez aucun évènement avec vos artistes préférés.</p>
-                        <form onSubmit={handleSubmit} className='static md:w-1/3 lg:w-80 xl:w-96'>
+                        <form onSubmit={handleSubmit} className='static md:w-1/3 lg:w-80 xl:w-96 mx-auto sm:mx-0'>
 
-                            <input type="search" value={city} onChange={searchCity} onKeyDown={onKeyDown} className="form-input align-middle text-xl h-12 pl-6 mt-9 sm:w-full rounded-full placeholder:italic placeholder:text-base placeholder:text-neutral-400" placeholder='Choisis une ville'></input>
+                            <input type="search" value={city} onChange={searchCity} onKeyDown={onKeyDown} className="form-input align-middle text-xl h-12 pl-6 mt-9 w-2/3 sm:w-full rounded-full placeholder:italic placeholder:text-base placeholder:text-neutral-400" placeholder='Choisis une ville'></input>
+
+                            <button className="sm:hidden inline-block ml-3 mb-1 align-bottom w-14 h-10 bg-gray-300 rounded-md content-center hover:bg-gray-400 active:bg-gray-500" type="submit">
+                                <SvgSearch className='transition ease-in-out delay-75 group-active:duration-100 group-active:translate-y-1 m-auto' />
+                            </button>
 
                             {showSuggestions && city && (
 
@@ -211,7 +214,7 @@ const Header = (props: any) => {
                                 </div>
                             )}
 
-                            <button className="absolute group bottom-10 right-3 sm:right-20 md:right-16 lg:right-5 xl:right-16 2xl:right-4 top-14 w-14 h-10 bg-gray-300 rounded-md block content-center hover:bg-gray-400 active:bg-gray-500" type="submit">
+                            <button className="hidden sm:block sm:absolute group sm:right-20 md:right-16 lg:right-5 xl:right-16 2xl:right-4 sm:top-14 w-14 h-10 bg-gray-300 rounded-md  content-center hover:bg-gray-400 active:bg-gray-500" type="submit">
                                 <SvgSearch className='transition ease-in-out delay-75 group-active:duration-100 group-active:translate-y-1 m-auto' />
                             </button>
 
