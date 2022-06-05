@@ -5,6 +5,7 @@ import { NextPage } from 'next'
 import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { getSecrets } from '@netlify/functions'
 import { SpotifyProvider } from '../context/SpotifyProvider'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -14,17 +15,21 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-export default function MyApp({ Component, pageProps}: AppPropsWithLayout) {
+const queryClient = new QueryClient();
+
+
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
 
   const getLayout = Component.getLayout ?? ((page) => page)
 
 
   return (
-  
-<SpotifyProvider value={'hello'}>
-  {getLayout(<Component {...pageProps} />)}
-</SpotifyProvider>
+    <QueryClientProvider client={queryClient}>
+      <SpotifyProvider value={'hello'}>
+        {getLayout(<Component {...pageProps} />)}
+      </SpotifyProvider>
+    </QueryClientProvider>
 
   )
 

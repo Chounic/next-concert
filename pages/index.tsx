@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import Layout from '../components/Layout'
-import { SpotifyContext } from '../context/SpotifyProvider'
 import styles from '../styles/Home.module.css'
 import useEmblaCarousel from 'embla-carousel-react'
 import SvgAngleCarreGauche from '../images/svg/AngleCarreGauche'
@@ -15,11 +14,32 @@ import anglePetitDroit from "../images/svg/angle-petit-droit.png"
 import calendar from '../images/svg/calendar.png';
 import localisation from '../images/svg/localisation.png';
 import punaise from '../images/svg/punaise.png';
+import { useInfiniteQuery } from 'react-query'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useMediaQuery } from '../utils/useMediaQuery'
 
 
 
 
 export default function Index(props: any) {
+
+  let isMobile = useMediaQuery('(max-width: 640px)')
+
+  const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    "infiniteEvents",
+    async ({ pageParam = 0}) =>
+      await fetch(
+        `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.NEXT_PUBLIC_ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${props.pickedCityId}&size=10&page=${pageParam}`
+      ).then((result) => result.json()).then( (eventsJsonRes) => eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
+        return index === self.findIndex((t: any) => (
+          t.name === item.name
+        ))
+      })),
+    { getNextPageParam: (lastPage, pages) => pages.length,
+      enabled: isMobile
+    }
+  );
+
 
 
   const [emblaRefAttractions, emblaApiAttractions] = useEmblaCarousel({ slidesToScroll: 7 })
@@ -60,7 +80,7 @@ export default function Index(props: any) {
 
                 <div key={index} className='flex-[0_0_100px] sm:flex-[0_0_200px] p-2 bg-white border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
                   <div className='h-[65px] sm:h-[130px] relative' >
-                    {item.images[0].url && <Image priority={true} src={item.images[0].url} alt="artist photo" layout='fill' objectFit='cover' />}
+                    {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='cover' />}
                   </div>
                   <p className='text-center text-xs sm:text-sm mt-2'>{item.name}</p>
                 </div>
@@ -90,7 +110,7 @@ export default function Index(props: any) {
 
                 <div key={index} className='flex-[0_0_350px] flex flex-col p-5 border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
                   <div className=' h-[200px] relative' >
-                    {item.images[0].url && <Image priority={true} src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
+                    {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
                   </div>
                   <div className='p-1 grow flex flex-col'>
 
@@ -137,15 +157,24 @@ export default function Index(props: any) {
           <SvgAngleCarreDroit className='transition ease-in-out active:scale-90' />
         </button>
       </div>
-      <div className='sm:hidden overflow-hidden group relative'>
 
-      {props.events.map((item: any, index: any) => {
+      { isMobile && status === "success" && ( 
+        <InfiniteScroll 
+        dataLength={data?.pages.flat().length} 
+        next={fetchNextPage} 
+        hasMore={true}
+        loader={<h4>Loading...</h4>} 
+        className='sm:hidden'
+        >
+      <div className=' group relative'>
+
+      {data?.pages.map((page: any) => page.map((item: any, index: any) => {
               const itemPriceString = item.priceRanges ? item.priceRanges[0].min.toFixed(2).toString() : null;
               return (
 
                 <div key={index} className='flex-[0_0_350px] flex flex-col p-5 border-zinc-200 transition ease-in-out delay-75 duration-100 hover:scale-110 border-y-2 first:border-l-2 last:border-r-2 ...' >
                   <div className=' h-[200px] relative' >
-                    {item.images[0].url && <Image priority={true} src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
+                    {item.images[0].url && <Image src={item.images[0].url} alt="artist photo" layout='fill' objectFit='inherit' />}
                   </div>
                   <div className='p-1 grow flex flex-col'>
 
@@ -179,12 +208,14 @@ export default function Index(props: any) {
 
                   </div>
                 </div>
-                // </Link>
+              
               )
-            })
+            }))
             }
 
       </div>
+      </InfiniteScroll>
+      )}
     </div>
   )
 }
@@ -211,7 +242,7 @@ export async function getStaticProps() {
 
   const secrets = await getSecrets();
 
-  const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&size=40`);
+  const attractionsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=${process.env.NEXT_PUBLIC_ACCESS_TOKEN}&classificationName=[Music]&size=40`);
   const attractionsJsonRes = await attractionsRes.json();
   const attractions = attractionsJsonRes._embedded.attractions ;
 
@@ -243,7 +274,7 @@ export async function getStaticProps() {
   ];
   const pickedCity = citiesId[Math.floor(Math.random() * 5)];
 
-  const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=200`);
+  const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.NEXT_PUBLIC_ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${pickedCity.dmaId}&size=50`);
   const eventsJsonRes = await eventsRes.json();
   const events = eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
     return index === self.findIndex((t: any) => (
@@ -259,7 +290,8 @@ export async function getStaticProps() {
       secrets,
       attractions,
       events,
-      pickedCity: pickedCity.name
+      pickedCity: pickedCity.name, 
+      pickedCityId: pickedCity.dmaId
     }
   }
 }
