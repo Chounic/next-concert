@@ -1,10 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import Layout from '../components/Layout'
 import { NextPage } from 'next'
-import { ReactElement, ReactNode, useEffect, useState } from 'react'
-import { getSecrets } from '@netlify/functions'
-import { SpotifyProvider } from '../context/SpotifyProvider'
+import { ReactElement, ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 type NextPageWithLayout = NextPage & {
@@ -26,9 +23,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SpotifyProvider value={'hello'}>
         {getLayout(<Component {...pageProps} />)}
-      </SpotifyProvider>
     </QueryClientProvider>
 
   )

@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import SvgLocation from '../images/svg/Location';
+import React, { FormEvent, useEffect, useState } from 'react';
 import logoImage from '../images/svg/logo.png';
 import SvgUtilisateur from '../images/svg/Utilisateur';
 import backgroundHeaderImage from '../images/svg/concert-header-image3.jpg';
@@ -9,51 +8,37 @@ import { useRouter } from 'next/router';
 import { cities } from './content';
 import SvgMenuBurger from '../images/svg/MenuBurger';
 import { AnimatePresence, motion } from "framer-motion"
+import { useMediaQuery } from '../utils/useMediaQuery';
 
-const Header = (props: any) => {
+const Header = () => {
 
     const [city, setCity] = useState('');
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-    const [windowSize, setWindowSize] = useState<number | undefined>(undefined);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const handleResize = () => {
-                setWindowSize(window.innerWidth);
-            }
-
-            window.addEventListener("resize", handleResize);
-
-            handleResize();
-
-            return () => window.removeEventListener("resize", handleResize);
-        }
-    }, []);
+    let isMobile = useMediaQuery('(max-width: 640px)')
 
 
-    const searchCity = (e: any) => {
+    const searchCity = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const userInput = e.target.value;
-
         const suggestions = cities.filter(item => item.toLowerCase().indexOf(userInput.toLowerCase()) > -1)
-
         setCity(e.target.value);
         setFilteredSuggestions(suggestions);
         setActiveSuggestionIndex(0);
         setShowSuggestions(true);
     }
 
-    const onKeyDown = (event: any) => {
-        if (event.keyCode === 40 && activeSuggestionIndex < (filteredSuggestions.length - 1)) {
-            setActiveSuggestionIndex((prev) => prev + 1);
+    const onKeyDown = (event: React.KeyboardEvent): void => {
+        if (event.key === 'ArrowDown' && activeSuggestionIndex < (filteredSuggestions.length - 1)) {
+            setActiveSuggestionIndex((prevASI) => prevASI + 1);
         }
-        if (event.keyCode === 38 && activeSuggestionIndex > 0) {
+        if (event.key === 'ArrowUp' && activeSuggestionIndex > 0) {
             setActiveSuggestionIndex((prevASI) => prevASI - 1);
         }
 
-        if (event.keyCode === 13) {
+        if (event.key === 'Enter') {
             event.preventDefault();
             if (filteredSuggestions[0] && city) {
                 setCity(filteredSuggestions[activeSuggestionIndex]);
@@ -70,17 +55,16 @@ const Header = (props: any) => {
     }
 
 
-    const onClick = (e: any) => {
+    const onClick = (e: React.MouseEvent<HTMLLIElement>) => {
         setFilteredSuggestions([]);
-        setCity(e.target.innerText);
+        const input = e.target as HTMLElement;
+        setCity(input.innerText);
         setActiveSuggestionIndex(0);
         setShowSuggestions(false);
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-
         city && router.push({
             pathname: '/Search',
             query: { city: city }
@@ -92,10 +76,6 @@ const Header = (props: any) => {
         setCity('');
     }
 
-    // const menuFullScreen = () => {
-    //     setShowMenu(!showMenu);
-    //     props.switchMenuDisplay();
-    // }
 
     const router = useRouter()
 
@@ -140,7 +120,7 @@ const Header = (props: any) => {
 
     return (
         <>
-            <motion.nav animate={showMenu && windowSize !== undefined && windowSize < 640 ? "menuFullScreen" : "menuNormal"} variants={variants} className='grid grid-cols-12 md:px-24 lg:px-32 bg-orange-50 items-center font-myfont'>
+            <motion.nav animate={showMenu && isMobile ? "menuFullScreen" : "menuNormal"} variants={variants} className='grid grid-cols-12 md:px-24 lg:px-32 bg-orange-50 items-center font-myfont'>
                 <button className="group peer absolute top-6 sm:static w-12 mr h-10 mx-10 bg-black rounded-md block content-center sm:hidden active:scale-105 active:bg" onClick={() => setShowMenu(!showMenu)}>
                     <SvgMenuBurger className='fill-orange-50 m-auto' />
                 </button>

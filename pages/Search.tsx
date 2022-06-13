@@ -108,7 +108,7 @@ export async function getServerSideProps({ query }: any) {
 
 const dmaId = cities.indexOf(query.city) > -1 ? cities.indexOf(query.city) + 212 : null
 
-  const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${dmaId}&size=200`);
+  const eventsRes = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.NEXT_PUBLIC_ACCESS_TOKEN}&classificationName=[Music]&countryCode=US&dmaId=${dmaId}&size=200`);
   const errorCode = eventsRes.ok ? false : eventsRes.status;
   const eventsJsonRes = await eventsRes.json();
   const events = !errorCode ? eventsJsonRes._embedded.events.filter((item: any, index: number, self: any) => {
