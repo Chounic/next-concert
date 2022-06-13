@@ -4,9 +4,9 @@ const nextConfig = {
   images: {
     domains: ['i.scdn.co', 's1.ticketm.net']
   }, 
-  env: {
-    ticketMasterKey: 'Z8gms2LfkNuo0lo7UpFmwkfTBGSAZlsP',
-  }, 
+  experimental: {
+    outputStandalone: true,
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
